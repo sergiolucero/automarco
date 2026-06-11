@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automarco · Plan de Aceleración IA (90 días)</title>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background: radial-gradient(circle at top, #0b1220 0%, #020617 45%, #01040c 100%);
+            color: #e2e8f0;
+            overflow: hidden;
+        }
+        a { color: inherit; }
+        .slides-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3.2rem clamp(2rem, 8vw, 6rem);
+            text-align: center;
+            gap: 1.5rem;
+        }
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+        }
+        h1 {
+            font-size: clamp(2.8rem, 5.4vw, 4.2rem);
+            color: #f87171;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+        }
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: #38bdf8;
+            font-weight: 700;
+        }
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            color: #f8fafc;
+            font-weight: 600;
+        }
+        p {
+            font-size: clamp(1rem, 1.8vw, 1.3rem);
+            line-height: 1.65;
+            color: #cbd5e1;
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+        strong { color: #f8fafc; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: clamp(1.5rem, 4vw, 3rem);
+            width: min(1100px, 100%);
+            text-align: left;
+            align-items: stretch;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.4rem;
+            width: min(1100px, 100%);
+        }
+        .card {
+            background: linear-gradient(160deg, rgba(15,23,42,0.85) 0%, rgba(30,41,59,0.92) 100%);
+            border: 1px solid rgba(56,189,248,0.15);
+            border-radius: 16px;
+            padding: clamp(1.4rem, 2.8vw, 2.1rem);
+            box-shadow: 0 20px 40px -24px rgba(15, 118, 210, 0.45);
+        }
+        .card.accent-red { border-left: 6px solid #ef4444; }
+        .card.accent-blue { border-left: 6px solid #38bdf8; }
+        .card.accent-amber { border-left: 6px solid #fbbf24; }
+        ul {
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+        }
+        li {
+            padding-left: 2.1rem;
+            position: relative;
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            color: #e2e8f0;
+        }
+        li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.45rem;
+            width: 0.7rem;
+            height: 0.7rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+            box-shadow: 0 0 10px rgba(239,68,68,0.45);
+        }
+        .stat-pill {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            border-radius: 14px;
+            padding: 1rem 1.4rem;
+            background: rgba(15,118,210,0.2);
+            border: 1px solid rgba(56,189,248,0.4);
+            min-width: 180px;
+            box-shadow: inset 0 0 18px rgba(56, 189, 248, 0.15);
+        }
+        .stat-pill strong {
+            font-size: 1.8rem;
+            color: #38bdf8;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(59,130,246,0.16);
+            color: #93c5fd;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+        .dual-column {
+            width: min(1100px, 100%);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: clamp(1.5rem, 4vw, 3rem);
+            text-align: left;
+        }
+        .dual-column h3 {
+            margin-bottom: 1rem;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.6rem;
+            width: min(1000px, 100%);
+        }
+        .kpi-card {
+            border-radius: 18px;
+            padding: 1.6rem;
+            background: linear-gradient(145deg, rgba(15,118,210,0.15) 0%, rgba(23,37,84,0.65) 100%);
+            border: 1px solid rgba(59,130,246,0.22);
+            text-align: left;
+        }
+        .kpi-card strong {
+            display: block;
+            font-size: 2.1rem;
+            margin-bottom: 0.4rem;
+        }
+        table {
+            width: min(1050px, 100%);
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: rgba(15, 23, 42, 0.85);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(56,189,248,0.2);
+        }
+        th, td {
+            padding: clamp(1rem, 2vw, 1.4rem);
+            text-align: left;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.45);
+            font-size: clamp(0.95rem, 1.7vw, 1.15rem);
+        }
+        th {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: #fef2f2;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+        tr:last-child td { border-bottom: none; }
+        .badge-time {
+            display: inline-block;
+            background: rgba(251,191,36,0.22);
+            color: #fbbf24;
+            padding: 0.35rem 0.7rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+        }
+        .micro-chart {
+            height: 150px;
+            display: flex;
+            align-items: flex-end;
+            gap: 0.6rem;
+        }
+        .micro-bar {
+            flex: 1;
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            background: linear-gradient(180deg, rgba(59,130,246,0.45) 0%, rgba(37,99,235,0.25) 100%);
+        }
+        .micro-bar.highlight {
+            background: linear-gradient(180deg, #f97316 0%, #f97316aa 80%, #fb923c66 100%);
+            box-shadow: 0 0 16px rgba(249,115,22,0.55);
+        }
+        .micro-bar span {
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        .controls {
+            position: fixed;
+            bottom: 40px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 0 clamp(1.8rem, 6vw, 5rem);
+            z-index: 50;
+        }
+        .controls button:first-child {
+            justify-self: start;
+        }
+        .controls button:last-child {
+            justify-self: end;
+        }
+        button {
+            background: linear-gradient(135deg, #f87171 0%, #ef4444 50%, #b91c1c 100%);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 999px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 30px -12px rgba(248,113,113,0.6);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 38px -10px rgba(248,113,113,0.55);
+        }
+        button:active { transform: translateY(0); }
+        .slide-number {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            body, html { overflow-y: auto; }
+            .slide { position: relative; padding: 2.5rem 1.4rem 6rem; }
+            .controls {
+                position: sticky;
+                bottom: 0;
+                padding: 1.2rem clamp(1rem, 6vw, 3rem);
+                background: linear-gradient(180deg, transparent 0%, rgba(2,6,23,0.85) 45%, rgba(2,6,23,1) 100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slides-container" id="slides">
+        <!-- Slide 1 -->
+        <section class="slide active">
+            <span class="badge">Holding Automarco · Autotec · HD Automarco · ITC</span>
+            <h1>Automarco</h1>
+            <h2>Inyección de Inteligencia Artificial a la Cadena de Repuestos</h2>
+            <p>Plan intensivo de 90 días para transformar la plataforma automarco.cl en un ecosistema predictivo que acelere ventas B2B/B2C, reduzca capital inmovilizado y entregue analítica accionable a dirección comercial y operaciones.</p>
+            <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-top:0.5rem;">
+                <div class="stat-pill"><strong>170+</strong><span>Marcas listadas en catálogo</span></div>
+                <div class="stat-pill"><strong>60</strong><span>Líneas de producto críticas</span></div>
+                <div class="stat-pill"><strong>2</strong><span>Canales activos: Portal Web & WhatsApp</span></div>
+            </div>
+        </section>
+
+        <!-- Slide 2 -->
+        <section class="slide">
+            <h2>Qué Vimos en automarco.cl (junio 2026)</h2>
+            <div class="dual-column">
+                <div class="card accent-blue">
+                    <h3>Fortalezas Digitales</h3>
+                    <ul>
+                        <li>Catálogo transversal con filtros por marca, modelo, año, medida y OEM: base perfecta para entrenamiento de modelos.</li>
+                        <li>Flujo B2B con login, seguimiento de pedidos y modal de datos personales → Clientes habituados a canales digitales.</li>
+                        <li>Integración directa con WhatsApp y mesa central: oportunidades para asistentes conversacionales.</li>
+                        <li>Holding con múltiples unidades (Autotec, HD Automarco, Full Acero) que pueden compartir inteligencia de demanda.</li>
+                    </ul>
+                </div>
+                <div class="card accent-red">
+                    <h3>Dolores Detectados</h3>
+                    <ul>
+                        <li>Experiencia de búsqueda fragmentada: múltiples selects secuenciales generan fricción y alta tasa de abandono.</li>
+                        <li>No se presentan recomendaciones dinámicas ni elasticidad de precio por SKU/segmento.</li>
+                        <li>Sin indicadores visibles de disponibilidad real-time ni probabilidad de rotación por SKU.</li>
+                        <li>Datos dispersos en canales (portal, WhatsApp, ERP) sin capa unificada de analítica comercial.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3 -->
+        <section class="slide">
+            <h2>Objetivos de Impacto en 90 Días</h2>
+            <div class="grid-3">
+                <div class="card accent-amber">
+                    <h3>Liquidez & Supply Chain</h3>
+                    <p>Reducir en <strong>15–18%</strong> el stock inmovilizado en repuestos de baja rotación mediante pronósticos multivariables y compras asistidas.</p>
+                </div>
+                <div class="card accent-blue">
+                    <h3>Venta Promedio & Cross-Sell</h3>
+                    <p>Aumentar el ticket promedio B2B en <strong>8%</strong> con bundles inteligentes (compatibilidad + consumibles asociados) y promociones dinámicas.</p>
+                </div>
+                <div class="card accent-red">
+                    <h3>Productividad Comercial</h3>
+                    <p>Automatizar hasta el <strong>30%</strong> de las consultas de compatibilidad vía asistente experto, liberando ejecutivos para cierres de alto valor.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4 -->
+        <section class="slide">
+            <h2>Núcleo de Datos & Business Intelligence</h2>
+            <div class="grid-2">
+                <div class="card accent-blue">
+                    <h3>Data Mesh Automarco</h3>
+                    <ul>
+                        <li>Ingesta diaria desde ERP, histórico de ventas y catálogos (marcas, medidas, OEM) hacia lakehouse en la nube.</li>
+                        <li>Normalización de SKUs entre unidades del holding para descubrir sustitutos y canibalización.</li>
+                        <li>Paneles ejecutivos en tiempo real: rotación, fill-rate, aging de inventario, margen por segmento.</li>
+                    </ul>
+                </div>
+                <div class="card accent-amber">
+                    <h3>Scorecards Estratégicos</h3>
+                    <div class="micro-chart">
+                        <div class="micro-bar" style="height:40%;"></div>
+                        <div class="micro-bar" style="height:52%;"></div>
+                        <div class="micro-bar highlight" style="height:90%;"><span>+31%</span></div>
+                        <div class="micro-bar" style="height:58%;"></div>
+                        <div class="micro-bar" style="height:65%;"></div>
+                    </div>
+                    <p style="margin-top:1rem;">Automatizamos alertas de riesgo (rotación &lt; P25, margen negativo, reposición tardía) y disparadores de campañas según probabilidad de recompra.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5 -->
+        <section class="slide">
+            <h2>IA Aplicada a Inventario y Abastecimiento</h2>
+            <div class="grid-2">
+                <div class="card accent-red">
+                    <h3>Demand Forecasting Multinivel</h3>
+                    <p>Modelos ML combinando estacionalidad, parque vehicular, historial de devoluciones y elasticidad por canal. Output: plan de compras semanal con <strong>probabilidad de stockout</strong> y <strong>recomendación de lote óptimo</strong>.</p>
+                    <ul>
+                        <li>Integración con catálogos de 170+ marcas para identificar piezas sustitutas.</li>
+                        <li>Sugerencias de transferencia entre bodegas cuando se detecta exceso vs déficit.</li>
+                    </ul>
+                </div>
+                <div class="card accent-blue">
+                    <h3>Control Inteligente de Margen</h3>
+                    <p>Pricing dinámico que cruza costos de reposición, inventario disponible, competencia online y sensibilidad del cliente.</p>
+                    <ul>
+                        <li><strong>Guardrails</strong> por segmento (taller, flota, retail) para proteger margen mínimo.</li>
+                        <li>Simulador "¿qué pasa si?" para compradores antes de ejecutar órdenes grandes.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6 -->
+        <section class="slide">
+            <h2>IA para Venta Digital y Postventa</h2>
+            <div class="grid-2">
+                <div class="card accent-blue">
+                    <h4>Copiloto Visual & Conversacional</h4>
+                    <ul>
+                        <li>Motor de búsqueda híbrido: texto libre + foto tomada en taller (visión computacional) → matching con SKU, ficha OEM y disponibilidad.</li>
+                        <li>Asistente omnicanal (web + WhatsApp) entrenado con manuales y catálogos, entregando compatibilidad, tiempos de despacho y upsell.</li>
+                    </ul>
+                </div>
+                <div class="card accent-red">
+                    <h3>Orquestador Campañas IA</h3>
+                    <ul>
+                        <li>Segmentación dinámica según comportamiento en portal y compras históricas.</li>
+                        <li>Workflows automáticos: alertas de mantención, bundles cross-holding (Autotec, Full Acero), recuperadores de carrito para B2B.</li>
+                        <li>Tablero de performance con atribución multitouch.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7 -->
+        <section class="slide">
+            <h2>Roadmap de Ejecución · 90 Días</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tiempo</th>
+                        <th>Foco</th>
+                        <th>Entregables Clave</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge-time">Mes 1</span></td>
+                        <td><strong>Data Foundation + Search Quick Wins</strong></td>
+                        <td>
+                            <ul>
+                                <li>Integraciones ERP + portal para lakehouse y taxonomía de SKUs unificada.</li>
+                                <li>Dashboard ejecutivo v0 con rotación, fill rate y aging crítico.</li>
+                                <li>Motor de búsqueda inteligente (texto + OEM + semántico) en beta.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge-time">Mes 2</span></td>
+                        <td><strong>Demand & Pricing Experiments</strong></td>
+                        <td>
+                            <ul>
+                                <li>Modelo predictivo de demanda por SKU-bodega conectado a abastecimiento.</li>
+                                <li>Pricing dinámico con reglas de negocio y simulador de escenarios.</li>
+                                <li>Segmentación clientes RFM + afinidad de línea con campañas piloto.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge-time">Mes 3</span></td>
+                        <td><strong>Copilotos & Automatización Comercial</strong></td>
+                        <td>
+                            <ul>
+                                <li>Despliegue asistente experto (Web & WhatsApp) + entrenamiento continuo.</li>
+                                <li>Orquestador de campañas IA y recomendaciones en portal.</li>
+                                <li>Playbook de mejora continua: comité quincenal de rendimiento IA.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Slide 8 -->
+        <section class="slide">
+            <h2>KPI Operativos y Finance en Tiempo Real</h2>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <strong>Fill Rate</strong>
+                    <p>% pedidos completados sin quiebre. Objetivo 90% a día 90. Alertas cuando bodega cae <85%.</p>
+                </div>
+                <div class="kpi-card">
+                    <strong>Stock Inmovilizado</strong>
+                    <p>Días cubierta >P75. Target -18%; se monitorea top 50 SKUs con aging crítico.</p>
+                </div>
+                <div class="kpi-card">
+                    <strong>Margen Contributivo</strong>
+                    <p>Margen bruto por SKU y segmento (taller/flota/retail). Guardrails activan pricing dinámico.</p>
+                </div>
+                <div class="kpi-card">
+                    <strong>SLA Soporte IA</strong>
+                    <p>Tiempo respuesta compatibilidad &lt; 30s. Meta automatizar 35% consultas.</p>
+                </div>
+            </div>
+            <div class="kpi-grid" style="margin-top:1.8rem;">
+                <div class="kpi-card">
+                    <strong>Lead Time Proveedor</strong>
+                    <p>Lead time real vs acordado. Alertas cuando desviación >20% o compromete stock-out.</p>
+                </div>
+                <div class="kpi-card">
+                    <strong>Elasticidad Precio</strong>
+                    <p>Respuesta demanda ante ajustes. Panel en vivo compara precio automarco vs competidores.</p>
+                </div>
+                <div class="kpi-card">
+                    <strong>Conversión Digital</strong>
+                    <p>Sesiones → cotización → pedido; meta +10%. Segmentación por campaña y origen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide">
+            <h2>KPIs Esperados en 90 Días & Próximos Pasos</h2>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <strong>-18%</strong>
+                    <p>Inventario inmovilizado en SKUs de baja rotación (meta al día 90, combinación de reducción y transferencias).</p>
+                </div>
+                <div class="kpi-card">
+                    <strong>+10%</strong>
+                    <p>Conversión del portal gracias a búsqueda inteligente, bundles sugeridos y disponibilidad en tiempo real.</p>
+                </div>
+                <div class="kpi-card">
+                    <strong>-35%</strong>
+                    <p>Tiempo promedio de respuesta a consultas de compatibilidad gracias al asistente IA.</p>
+                </div>
+                <div class="kpi-card">
+                    <strong>+6 pts</strong>
+                    <p>Margen bruto protegido mediante pricing dinámico y alertas de fuga de margen.</p>
+                </div>
+            </div>
+            <p style="margin-top:2rem; max-width:900px;">Validemos en una sesión técnica de 90 minutos: fuentes de datos (ERP, portal, catálogos OEM), arquitectura cloud preferida y quick wins para activar piloto búsqueda + dashboards. Desde ahí, dejamos definidos governance, equipo y backlog priorizado.</p>
+            <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-top:0.5rem;">
+                <div class="stat-pill"><strong>Semana 1</strong><span>Workshop de descubrimiento y acceso a datos</span></div>
+                <div class="stat-pill"><strong>Semana 4</strong><span>Dashboard v0 + prototipo buscador</span></div>
+                <div class="stat-pill"><strong>Semana 12</strong><span>Pilotaje pricing + forecasting en vivo</span></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="controls">
+        <button type="button" onclick="prevSlide()">❮ </button>
+        <span class="slide-number" id="slide-num">1 / 9</span>
+        <button type="button" onclick="nextSlide()">❯</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const numLabel = document.getElementById('slide-num');
+
+        function updateSlideNum() {
+            numLabel.innerText = `${currentSlide + 1} / ${slides.length}`;
+        }
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            updateSlideNum();
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>
